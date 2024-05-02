@@ -1,16 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width-device-width , initial-scale=1.0">
-    <title>Working with Node.js Views </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <title>Solent Nursery Chidrens Information</title>
+    <style>
+        body { font-family: Lato , sans-serif; background-image: repeating-linear-gradient(
+    to right,
+    #fee5f9 0px,
+    #fcd6f4 20px,
+    #ffe5f9 20px,
+    #ffffff 40px
+  ); align-items: center; margin-top: 5%; }
+        .container { width: 80%; margin: auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);border-radius: 45px; }
+        table { width: 100%; border-collapse:separate;}
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th { background-color: #d4d4d4; }
+        form > div { margin-bottom: 10px; }
+        label { display: block; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; margin: 6px 0; box-sizing: border-box; }
+        button { background-color: #b8005f; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        button:hover { background-color: #a55e82; }
+    </style>
 </head>
 <body>
-    <h1>Home</h1>
-    <h2> your first html view page</h2>
-    <nav>
-        <a href="/">Homepage</a>
-        <a href="/about">About Page</a>
-    </nav>
+    <div class="container">
+        <h1 style="margin: 0%;">Solent Nursery</h1>
+        <h2 style="font-size: 17px; margin-top: 0%; color: #b8005f">Child Emergency Information</h2>
+        
+        <form id="kidForm">
+            <div>
+                <label for="name">Child's Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div>
+                <label for="Parentcontact">Parent Contact:</label>
+                <input type="number" id="Phone number" name="Phone number">
+            </div>
+            <div>
+                <label for="allergies">Allergies (if any):</label>
+                <input type="text" id="allergies" name="allergies">
+            </div>
+            <div>
+                <label for="specialnotes">Special Notes:</label>
+                <input type="text" id="notes" name="notes">
+            </div>
+            <button type="submit">Add Child</button>
+        </form>
+        
+        <h2>Registered Kids</h2>
+        <table id="kidsTable">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Parent Contact</th>
+                <th>Allergies</th>
+                <th>Special Notes</th>
+            </tr>
+            <!-- Dynamic rows will be added here -->
+        </table>
+    </div>
+    
+    <script>
+        
+    window.onload = function() {
+        fetch('/Solent_Nursery')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('kidsTable');
+                data.forEach(Solent_Nursery => {
+                    const row = table.insertRow();
+                    row.insertCell(0).textContent = Solent_Nursery.ChildName;
+                    row.insertCell(1).textContent = Solent_Nursery.Age;
+                    row.insertCell(2).textContent = Solent_Nursery.ParentContact; // Make sure field names match those in your database
+                    row.insertCell(3).textContent = Solent_Nursery.Allergies;
+                    row.insertCell(4).textContent = Solent_Nursery.SpecialNotes;
+                });
+            })
+            .catch(error => console.error('Error fetching kids:', error));
+    };
+    </script>
 </body>
 </html>
